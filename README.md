@@ -1,1 +1,1 @@
-# StripePaymentGateway_DotNet5
+# Stripe Payment Gateway
