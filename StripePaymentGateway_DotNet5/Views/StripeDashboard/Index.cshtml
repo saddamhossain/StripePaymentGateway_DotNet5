@@ -1,0 +1,176 @@
+﻿@using StripePaymentGateway_DotNet5.ViewModel
+@model StripeDashboardViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Stripe Overview</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <h4>Available Credit: $@string.Format("{0:#.00}", Convert.ToDecimal(@Model.Balance.Available.Sum(n => n.Amount)) / 100) </h4>
+    </div>
+    <div class="col-md-6">
+        <h4>Pending Credit: $@string.Format("{0:#.00}", Convert.ToDecimal(@Model.Balance.Pending.Sum(n => n.Amount)) / 100) </h4>
+    </div>
+</div>
+
+
+<hr />
+<h2>Stripe Products</h2>
+<table class="table table-bordered table-hover">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Created</th>
+            <th scope="col">Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Products)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Created</td>
+                <td>@item.Description</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<hr />
+<h2>Stripe Balance Transactions</h2>
+<table class="table table-bordered table-hover">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">Type</th>
+            <th scope="col">Status</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Created</th>
+            <th scope="col">Available On</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.BalanceTransactions)
+        {
+            <tr>
+                <td scope="row">@item.Type</td>
+                <td>@item.Status</td>
+                <td>$@string.Format("{0:#.00}", Convert.ToDecimal(item.Amount) / 100)</td>
+                <td>@item.Created</td>
+                <td>@item.AvailableOn.ToShortDateString()</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<hr />
+<h2>Stripe Customers</h2>
+<table class="table table-bordered table-hover">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Balance</th>
+            <th scope="col">Created</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Customers)
+        {
+            <tr>
+                <td scope="row">@item.Name</td>
+                <td>$@string.Format("{0:#.00}", Convert.ToDecimal(item.Balance) / 100)</td>
+                <td>@item.Created</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<hr />
+<h2>Stripe Charges</h2>
+<table class="table table-bordered table-hover">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">Amount</th>
+            <th scope="col">Receipt Number</th>
+            <th scope="col">Created</th>
+            <th scope="col">Currency</th>
+            <th scope="col">Customer ID</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Chages)
+        {
+            <tr>
+                <td scope="row">$@string.Format("{0:#.00}", Convert.ToDecimal(item.Amount) / 100)</td>
+                <td>@item.ReceiptNumber</td>
+                <td>@item.Created</td>
+                <td>@item.Currency</td>
+                <td>@item.CustomerId</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<hr />
+<h2>Stripe Refunds</h2>
+<table class="table table-bordered table-hover">
+    <thead class="thead-light">
+        <tr>
+            <th>Amount</th>
+            <th scope="col">Receipt Number</th>
+            <th scope="col">Created</th>
+            <th scope="col">Currency</th>
+            <th scope="col">Reason</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Refunds)
+        {
+            <tr>
+                <td scope="row">$@string.Format("{0:#.00}", Convert.ToDecimal(item.Amount) / 100)</td>
+                <td>@item.ReceiptNumber</td>
+                <td>@item.Created</td>
+                <td>@item.Currency</td>
+                <td>@item.Reason</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<hr />
+<h2>Stripe Disputes</h2>
+<table class="table table-bordered table-hover">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">Amount</th>
+            <th scope="col">Created</th>
+            <th scope="col">Currency</th>
+            <th scope="col">Reason</th>
+            <th scope="col">Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Disputs)
+        {
+            <tr>
+                <td scope="row">$@string.Format("{0:#.00}", Convert.ToDecimal(item.Amount) / 100)</td>
+                <td>@item.Created</td>
+                <td>@item.Currency</td>
+                <td>@item.Reason</td>
+                <td>@item.Status</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+

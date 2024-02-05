@@ -1,0 +1,38 @@
+﻿@model StripePaymentGateway_DotNet5.Models.Book
+@using Microsoft.Extensions.Options
+@inject IOptions<StripePaymentGateway_DotNet5.Settings.StripeSettings> Stripe
+
+@{
+    ViewData["Title"] = "Purchase";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <form id="payment-form" method="post" asp-controller="Checkout" asp-action="Create">
+            @Html.HiddenFor(s => s.Id)
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title" name="Title"> @Model.Title </h5>
+                    <p class="card-text"> @Model.Description </p>
+                    <p class="card-text"> <small class="text-muted">Author: @Model.Author </small> </p>
+                    <p class="card-text"> <small class="text-muted">Price: @Model.Price </small> </p>
+                </div>
+                <img style="width: 90%" class="card-img-bottom" src="@Model.Thumbnail" alt="Card image cap">
+            </div>
+            <hr />
+            <script src="https://checkout.stripe.com/checkout.js"
+                    class="stripe-button"
+                    data-key="@Stripe.Value.PublishableKey"
+                    data-name="Library App Payment"
+                    data-description="@Model.Author - @Model.Title"
+                    data-local="en"
+                    @*data-amount="@ViewBag.PurchaseAmountWithCent"*@
+                    data-currency="usd"
+                    data-label="Confirm Payment - $@ViewBag.PurchaseAmount"
+                    data-image="/images/main-book.png">
+            </script>
+        </form>
+    </div>
+</div>
+

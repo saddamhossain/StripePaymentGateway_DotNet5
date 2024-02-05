@@ -1,0 +1,33 @@
+﻿@using Stripe
+@model List<Plan>
+
+@{
+    ViewData["Title"] = "Load All Plans";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    @if (item.ProductId == "prod_ImtJqiWjklrVeH")
+                    {
+                        <h5 class="card-title">Monthly Subscription  </h5>
+                    }
+                    else if (item.ProductId == "prod_ImtKhwfXcE602Z")
+                    {
+                        <h5 class="card-title"> Yearly Subscription </h5>
+                    }
+
+                    <p>$@string.Format("{0:#.00}", Convert.ToDecimal(item.Amount) / 100) </p>
+                    <p>@item.Interval</p>
+                </div>
+            </div>
+
+            @Html.ActionLink("Subscribe","SubscribeToPlan", "Checkout", new { Id = item.Id}, new {@class="btn btn-success" })
+        </div>
+    }
+</div>
+
