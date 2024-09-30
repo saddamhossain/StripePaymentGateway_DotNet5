@@ -1,5 +1,3 @@
-using System;
-
 namespace StripePaymentGateway_DotNet5.Models
 {
     public class ErrorViewModel
